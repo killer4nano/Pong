@@ -1,10 +1,2 @@
 C:\Users\n01179251\Documents\visual studio 2013\Projects\WindowsApplication1\WindowsApplication1\bin\Debug\Pong.exe.config
-C:\Users\n01187828\Source\Repos\Pong\WindowsApplication1\bin\Debug\Pong.exe.config
-C:\Users\n01187828\Source\Repos\Pong\WindowsApplication1\bin\Debug\Pong.exe
-C:\Users\n01187828\Source\Repos\Pong\WindowsApplication1\bin\Debug\Pong.pdb
-C:\Users\n01187828\Source\Repos\Pong\WindowsApplication1\bin\Debug\Pong.xml
-C:\Users\n01187828\Source\Repos\Pong\WindowsApplication1\obj\Debug\Pong.Resources.resources
-C:\Users\n01187828\Source\Repos\Pong\WindowsApplication1\obj\Debug\Pong.vbproj.GenerateResource.Cache
-C:\Users\n01187828\Source\Repos\Pong\WindowsApplication1\obj\Debug\Pong.exe
-C:\Users\n01187828\Source\Repos\Pong\WindowsApplication1\obj\Debug\Pong.xml
-C:\Users\n01187828\Source\Repos\Pong\WindowsApplication1\obj\Debug\Pong.pdb
+C:\Users\n01179251\Source\Repos\Pong\WindowsApplication1\bin\Debug\Pong.exe.config
