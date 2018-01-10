@@ -23,6 +23,8 @@ Partial Class Game
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Me.lblIP = New System.Windows.Forms.Label()
+        Me.objPlayer1 = New System.Windows.Forms.Label()
+        Me.objPlayer2 = New System.Windows.Forms.Label()
         Me.SuspendLayout()
         '
         'lblIP
@@ -33,11 +35,31 @@ Partial Class Game
         Me.lblIP.Size = New System.Drawing.Size(0, 13)
         Me.lblIP.TabIndex = 0
         '
+        'objPlayer1
+        '
+        Me.objPlayer1.BackColor = System.Drawing.SystemColors.ActiveCaptionText
+        Me.objPlayer1.Location = New System.Drawing.Point(12, 103)
+        Me.objPlayer1.Name = "objPlayer1"
+        Me.objPlayer1.Size = New System.Drawing.Size(20, 112)
+        Me.objPlayer1.TabIndex = 1
+        Me.objPlayer1.Text = "Label1"
+        '
+        'objPlayer2
+        '
+        Me.objPlayer2.BackColor = System.Drawing.SystemColors.ActiveCaptionText
+        Me.objPlayer2.Location = New System.Drawing.Point(531, 112)
+        Me.objPlayer2.Name = "objPlayer2"
+        Me.objPlayer2.Size = New System.Drawing.Size(20, 112)
+        Me.objPlayer2.TabIndex = 2
+        Me.objPlayer2.Text = "Label1"
+        '
         'Game
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(563, 403)
+        Me.Controls.Add(Me.objPlayer2)
+        Me.Controls.Add(Me.objPlayer1)
         Me.Controls.Add(Me.lblIP)
         Me.Name = "Game"
         Me.Text = "Game"
@@ -46,4 +68,6 @@ Partial Class Game
 
     End Sub
     Friend WithEvents lblIP As System.Windows.Forms.Label
+    Friend WithEvents objPlayer1 As System.Windows.Forms.Label
+    Friend WithEvents objPlayer2 As System.Windows.Forms.Label
 End Class
