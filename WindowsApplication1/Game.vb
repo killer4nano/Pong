@@ -7,7 +7,10 @@ Public Class Game
     Dim bw As IO.BinaryWriter
     Dim br As IO.BinaryReader
     Dim ipAddress As IPAddress
-
+    Dim sMovedLeft As Integer
+    Dim sMovedTop As Integer
+    Dim rMovedLeft As Integer
+    Dim rMovedTop As Integer
     Private communicationThread As Thread
     Dim connection As TcpClient
 
@@ -47,6 +50,14 @@ Public Class Game
 
         End If
 
+        If isHost Then
+            sMovedLeft = objPlayer1.Left
+            sMovedTop = objPlayer1.Top
+        Else
+            sMovedLeft = objPlayer2.Left
+            sMovedTop = objPlayer2.Top
+        End If
+
         bw = New IO.BinaryWriter(connection.GetStream())
         br = New IO.BinaryReader(connection.GetStream())
         communicationThread = New Thread(AddressOf communicationStart)
@@ -57,24 +68,32 @@ Public Class Game
 
 
     Private Sub communicationStart()
-        MsgBox("hi")
         Do While True
 
             Dim message As String
             message = br.ReadString
             If isHost Then
-
-                If message = "U" Then
-                    objPlayer2.SetBounds(objPlayer2.Left, objPlayer2.Top - 15, 25, 130)
-                ElseIf message = "D" Then
-                    objPlayer2.SetBounds(objPlayer2.Left, objPlayer2.Top + 15, 25, 130)
-                End If
+                bw.Write(sMovedLeft)
+                bw.Write(sMovedTop)
+                rMovedLeft = br.Read
+                rMovedTop = br.Read
             Else
-                If message = "U" Then
-                    objPlayer1.SetBounds(objPlayer1.Left, objPlayer1.Top - 15, 25, 130)
-                ElseIf message = "D" Then
-                    objPlayer1.SetBounds(objPlayer1.Left, objPlayer1.Top + 15, 25, 130)
-                End If
+                rMovedLeft = br.Read
+                rMovedTop = br.Read
+                bw.Write(sMovedLeft)
+                bw.Write(sMovedTop)
+            End If
+        Loop
+    End Sub
+
+    Private Sub render()
+        Do While True
+            If isHost Then
+                objPlayer2.SetBounds(rMovedLeft, rMovedTop, 25, 130)
+                objPlayer1.SetBounds(sMovedLeft, sMovedTop, 25, 130)
+            Else
+                objPlayer1.SetBounds(rMovedLeft, rMovedTop, 25, 130)
+                objPlayer2.SetBounds(sMovedLeft, sMovedTop, 25, 130)
             End If
         Loop
     End Sub
@@ -83,19 +102,19 @@ Public Class Game
         If isHost Then
             If e.KeyCode = Keys.Down Then
                 objPlayer1.SetBounds(objPlayer1.Left, objPlayer1.Top + 15, 25, 130)
-                bw.Write("D")
+                sMovedTop += 15
             ElseIf e.KeyCode = Keys.Up Then
                 objPlayer1.SetBounds(objPlayer1.Left, objPlayer1.Top - 15, 25, 130)
-                bw.Write("U")
+                sMovedTop -= 15
             End If
 
         Else
             If e.KeyCode = Keys.Down Then
                 objPlayer2.SetBounds(objPlayer2.Left, objPlayer2.Top + 15, 25, 130)
-                bw.Write("D")
+                sMovedTop += 15
             ElseIf e.KeyCode = Keys.Up Then
                 objPlayer2.SetBounds(objPlayer2.Left, objPlayer2.Top - 15, 25, 130)
-                bw.Write("U")
+                sMovedTop -= 15
             End If
         End If
     End Sub
