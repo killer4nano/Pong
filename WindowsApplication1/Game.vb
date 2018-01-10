@@ -12,6 +12,7 @@ Public Class Game
     Dim rMovedLeft As Integer
     Dim rMovedTop As Integer
     Private communicationThread As Thread
+    Private renderThread As Thread
     Dim connection As TcpClient
 
 
@@ -19,7 +20,7 @@ Public Class Game
         HomeScreen.Show()
     End Sub
 
-    Private Sub Game_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+    Private Sub Game_Load(sender As Object, e As EventArgs) Handles MyBase.Load, MyBase.KeyDown
 
         Dim hostIp As String
         Dim host As String = System.Net.Dns.GetHostName()
@@ -51,43 +52,49 @@ Public Class Game
         End If
 
         If isHost Then
-            sMovedLeft = objPlayer1.Left
-            sMovedTop = objPlayer1.Top
+            sMovedLeft = 12
+            sMovedTop = 112
+            rMovedTop = 112
+            rMovedLeft = 531
         Else
-            sMovedLeft = objPlayer2.Left
-            sMovedTop = objPlayer2.Top
+            sMovedLeft = 531
+            sMovedTop = 112
+            rMovedTop = 112
         End If
 
         bw = New IO.BinaryWriter(connection.GetStream())
         br = New IO.BinaryReader(connection.GetStream())
         communicationThread = New Thread(AddressOf communicationStart)
         communicationThread.Start()
-
+        renderThread = New Thread(AddressOf communicationStart)
+        renderThread.Start()
 
     End Sub
 
 
-    Private Sub communicationStart()
-        Do While True
 
-            Dim message As String
-            message = br.ReadString
-            If isHost Then
-                bw.Write(sMovedLeft)
-                bw.Write(sMovedTop)
-                rMovedLeft = br.Read
-                rMovedTop = br.Read
-            Else
-                rMovedLeft = br.Read
-                rMovedTop = br.Read
-                bw.Write(sMovedLeft)
-                bw.Write(sMovedTop)
+
+    Private Sub Game_Load(sender As Object, e As KeyEventArgs) Handles MyBase.KeyDown
+            If e.KeyCode = Keys.Down Then
+            sMovedTop += 15
+            MsgBox("test")
+            ElseIf e.KeyCode = Keys.Up Then
+                sMovedTop -= 15
             End If
-        Loop
+
     End Sub
 
-    Private Sub render()
-        Do While True
+    Private Sub Timer1_Tick(sender As Object, e As EventArgs) Handles Timer1.Tick
+            If isHost Then
+                bw.Write(sMovedTop)
+                bw.Flush()
+                rMovedTop = br.ReadInt16
+            Else
+                rMovedTop = br.ReadInt16
+                bw.Write(sMovedTop)
+                bw.Flush()
+            End If
+
             If isHost Then
                 objPlayer2.SetBounds(rMovedLeft, rMovedTop, 25, 130)
                 objPlayer1.SetBounds(sMovedLeft, sMovedTop, 25, 130)
@@ -95,27 +102,5 @@ Public Class Game
                 objPlayer1.SetBounds(rMovedLeft, rMovedTop, 25, 130)
                 objPlayer2.SetBounds(sMovedLeft, sMovedTop, 25, 130)
             End If
-        Loop
-    End Sub
-
-    Private Sub Game_Load(sender As Object, e As KeyEventArgs) Handles MyBase.KeyDown
-        If isHost Then
-            If e.KeyCode = Keys.Down Then
-                objPlayer1.SetBounds(objPlayer1.Left, objPlayer1.Top + 15, 25, 130)
-                sMovedTop += 15
-            ElseIf e.KeyCode = Keys.Up Then
-                objPlayer1.SetBounds(objPlayer1.Left, objPlayer1.Top - 15, 25, 130)
-                sMovedTop -= 15
-            End If
-
-        Else
-            If e.KeyCode = Keys.Down Then
-                objPlayer2.SetBounds(objPlayer2.Left, objPlayer2.Top + 15, 25, 130)
-                sMovedTop += 15
-            ElseIf e.KeyCode = Keys.Up Then
-                objPlayer2.SetBounds(objPlayer2.Left, objPlayer2.Top - 15, 25, 130)
-                sMovedTop -= 15
-            End If
-        End If
     End Sub
 End Class

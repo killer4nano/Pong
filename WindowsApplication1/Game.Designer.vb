@@ -22,9 +22,11 @@ Partial Class Game
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        Me.components = New System.ComponentModel.Container()
         Me.lblIP = New System.Windows.Forms.Label()
         Me.objPlayer1 = New System.Windows.Forms.Label()
         Me.objPlayer2 = New System.Windows.Forms.Label()
+        Me.Timer1 = New System.Windows.Forms.Timer(Me.components)
         Me.SuspendLayout()
         '
         'lblIP
@@ -38,7 +40,7 @@ Partial Class Game
         'objPlayer1
         '
         Me.objPlayer1.BackColor = System.Drawing.SystemColors.ActiveCaptionText
-        Me.objPlayer1.Location = New System.Drawing.Point(12, 103)
+        Me.objPlayer1.Location = New System.Drawing.Point(12, 112)
         Me.objPlayer1.Name = "objPlayer1"
         Me.objPlayer1.Size = New System.Drawing.Size(20, 112)
         Me.objPlayer1.TabIndex = 1
@@ -52,6 +54,9 @@ Partial Class Game
         Me.objPlayer2.Size = New System.Drawing.Size(20, 112)
         Me.objPlayer2.TabIndex = 2
         Me.objPlayer2.Text = "Label1"
+        '
+        'Timer1
+        '
         '
         'Game
         '
@@ -70,4 +75,5 @@ Partial Class Game
     Friend WithEvents lblIP As System.Windows.Forms.Label
     Friend WithEvents objPlayer1 As System.Windows.Forms.Label
     Friend WithEvents objPlayer2 As System.Windows.Forms.Label
+    Friend WithEvents Timer1 As System.Windows.Forms.Timer
 End Class
