@@ -21,6 +21,7 @@ Public Class Game
         Dim hostIp As String
         Dim host As String = System.Net.Dns.GetHostName()
         Dim LocalHostaddress As String = System.Net.Dns.GetHostEntry(host).AddressList(0).ToString()
+        Control.CheckForIllegalCrossThreadCalls = False
 
         If isHost Then
             lblIP.Text = "Give this Ip to your friend " + LocalHostaddress
@@ -49,27 +50,28 @@ Public Class Game
         bw = New IO.BinaryWriter(connection.GetStream())
         br = New IO.BinaryReader(connection.GetStream())
         communicationThread = New Thread(AddressOf communicationStart)
+        communicationThread.Start()
+
 
     End Sub
 
 
     Private Sub communicationStart()
-
+        MsgBox("hi")
         Do While True
 
             Dim message As String
             message = br.ReadString
-            MsgBox(message)
             If isHost Then
 
                 If message = "U" Then
-                    objPlayer2.SetBounds(objPlayer2.Left, objPlayer2.Top + 15, 25, 130)
+                    objPlayer2.SetBounds(objPlayer2.Left, objPlayer2.Top - 15, 25, 130)
                 ElseIf message = "D" Then
                     objPlayer2.SetBounds(objPlayer2.Left, objPlayer2.Top + 15, 25, 130)
                 End If
             Else
                 If message = "U" Then
-                    objPlayer1.SetBounds(objPlayer1.Left, objPlayer1.Top + 15, 25, 130)
+                    objPlayer1.SetBounds(objPlayer1.Left, objPlayer1.Top - 15, 25, 130)
                 ElseIf message = "D" Then
                     objPlayer1.SetBounds(objPlayer1.Left, objPlayer1.Top + 15, 25, 130)
                 End If
